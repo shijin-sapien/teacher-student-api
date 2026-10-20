@@ -4,15 +4,25 @@ from app.models.student import Student
 from app.schemas.student import StudentCreate,StudentUpdate
 from fastapi import HTTPException
 
+from sqlalchemy.exc import IntegrityError
 
 def create_student(
-        db:Session,
-        student_data:StudentCreate) -> Student:
+                    db: Session,
+                    student_data: StudentCreate
+                     ) -> Student:
     new_student = Student(**student_data.model_dump())
 
-    db.add(new_student)
-    db.commit()
-    db.refresh(new_student)
+    try:
+        db.add(new_student)
+        db.commit()
+        db.refresh(new_student)
+
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail="Email already exists"
+        )
 
     return new_student
 

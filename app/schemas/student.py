@@ -1,9 +1,10 @@
-from pydantic import BaseModel,EmailStr,ConfigDict
+from pydantic import (BaseModel,EmailStr,ConfigDict,
+                      Field)
 
 
 class StudentCreate(BaseModel):
     name:str
-    age:int
+    age:int = Field(ge= 0 , le= 120)
     email:EmailStr
 
 class StudentResponse(BaseModel):
@@ -19,5 +20,5 @@ class StudentUpdate(BaseModel):
     
 
     name:str|None = None
-    age:int|None = None
+    age:int|None = Field(ge=0, le=120)
     email:EmailStr|None = None
