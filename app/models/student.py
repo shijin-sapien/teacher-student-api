@@ -1,21 +1,24 @@
 from sqlalchemy import String
-from sqlalchemy.orm import mapped_column,Mapped
+from sqlalchemy.orm import mapped_column, Mapped
 
 
 from app.core.database import Base
 
 
 class Student(Base):
-    __tablename__ ="students"
+    __tablename__ = "students"
 
-    id:Mapped[int] = mapped_column(
+    id: Mapped[int] = mapped_column(
         primary_key=True,
         index=True
     )
-    name:Mapped[str] =mapped_column(
+    name: Mapped[str] = mapped_column(
         String(100),
         nullable=False
     )
-    email:Mapped[str]= mapped_column(String(255),
-                                     unique= True,
-                                     nullable=False)
+    age: Mapped[int] = mapped_column(
+        nullable=False
+    )
+    email: Mapped[str] = mapped_column(String(255),
+                                        unique=True,
+                                        nullable=False)
